@@ -1,0 +1,38 @@
+// we need before/after for an example. This is a pipelining example. Not so
+// much structural abstraction becasue the bits of structure abstrcated are too small.
+// for structural you could have even just one let definition which encapsulates a bit of the task.
+// many examples at top level in symbolview where "putting it all together" in drawSymbol is done with lots of structural abstraction. Not oalal of
+// this is pipelining as well - though much is.
+
+// examples for pipelining 
+
+type XYPos =
+        {
+            X : float
+            Y : float
+        }
+
+type Rotation = | Degree0 | Degree90 | Degree180 | Degree270
+        
+let rotatePointAboutBlockCentre 
+            (point:XYPos) 
+            (centre:XYPos) 
+            (rotation:Rotation) = 
+    let relativeToCentre = (fun x-> x - centre)
+    let rotateAboutCentre (pointIn:XYPos) = 
+        match rotation with 
+        | Degree0 -> 
+            pointIn
+        | Degree90 ->
+            {X = pointIn.Y ; Y = -pointIn.X}
+        | Degree180 -> 
+            {X = -pointIn.X ; Y = - pointIn.Y}
+        | Degree270 ->
+            {X = -pointIn.Y ; Y = pointIn.X}
+           
+    let relativeToTopLeft = (fun x-> centre - x)
+
+    point
+    |> relativeToCentre
+    |> rotateAboutCentre
+    |> relativeToTopLeft

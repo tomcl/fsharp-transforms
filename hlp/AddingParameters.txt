@@ -1,0 +1,39 @@
+// Below is an extracted section of the type definition
+type Annotation = ScaleButton | RotateCWButton |RotateACWButton
+type RotationType = RotateClockwise | RotateAntiClockwise
+type Rotation = | Degree0 | Degree90 | Degree180 | Degree270
+type STransform = {Rotation: Rotation; Flipped: bool}
+type Msg = 
+    | Rotate of SymbolT.RotationType
+    ...
+
+// Below is an extracted section of code
+...
+ let extracted model compId =
+    let button = model.Wire.Symbol.Symbols[compId]
+    match button.STransform.Rotation with
+    | Degree90 ->
+        {model with TmpModel = Some model}, 
+            Cmd.batch [ sheetCmd (Rotate RotateClockwise); 
+                        wireCmd (BusWireT.UpdateConnectedWires model.SelectedComponents)]
+    | _ -> // can do this since Degree0 and Degree180 is not a case for those Buttons
+        {model with TmpModel = Some model}, 
+            Cmd.batch [ sheetCmd (Rotate RotateAntiClockwise); 
+                        wireCmd (BusWireT.UpdateConnectedWires model.SelectedComponents)]
+...
+
+// cleaner version
+// changed TJWC
+// optimisation = function-after-match
+
+...
+let extracted model compId =
+    let button = model.Wire.Symbol.Symbols[compId]
+    match Button.STransform.Rotation with
+    | Degree90 -> RotateClockwise
+    | _ -> RotateAntiClockwise
+    |> (fun rot ->
+            {model with TmpModel = Some model; Action = Idle}, 
+                Cmd.batch [ sheetCmd (Rotate rot); 
+                            wireCmd (BusWireT.UpdateConnectedWires model.SelectedComponents)])
+...

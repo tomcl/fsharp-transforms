@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="StructuralAbstraction.fs" />
+    <Compile Include="Pipelining.fs" />
+    <Compile Include="InputWrapping.fs" />
+    <Compile Include="MatchCaseCompression.fs" />
+    <Compile Include="FunctionWrapping.fs" />
+    <Compile Include="GlobalHelperFunction.fs" />
+    <Compile Include="ParameterOrdering.fs" />
+    <Compile Include="ParameterGrouping.fs" />
+    <Compile Include="AddingParameters.fs" />
+    <Compile Include="StaticParamElimination.fs" />
+    <Compile Include="BreakingPipeline.fs" />
+    <Compile Include="AnonymousFunAtEnd.fs" />
+    <Compile Include="Records.fs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+type BoundingBox = 
+    {
+        /// Top left corner of the bounding box
+        TopLeft: XYPos
+        /// Width
+        W: float
+        /// Height
+        H: float
+    }
+
+// TJWC yes good example
+
+let boxUnion (box:BoundingBox) (box':BoundingBox) =
+    let maxX = max (box.TopLeft.X + box.W) (box'.TopLeft.X + box'.W)
+    let maxY = max (box.TopLeft.Y + box.H) (box'.TopLeft.Y + box'.H)
+    let minX = min box.TopLeft.X box'.TopLeft.X
+    let minY = min box.TopLeft.Y box'.TopLeft.Y
+    {
+        TopLeft = {X = minX; Y = minY}
+        W = maxX - minX
+        H = maxY - minY
+    }

@@ -1,0 +1,53 @@
+// look at the use of optics
+
+// TJWC well optics are something else again.
+You could say that Optic.map was an example of a global function but it raises too many questions.
+Many global helpers exist - just look through the Common modules:
+Timehelpers.getInterval
+mapOverProject
+etc
+
+find
+
+module Lens =
+    let inline create (fGet: 'a -> 'b) (fPut: 'b -> 'a ->'a) : Lens<'a,'b> =
+        fGet, fPut
+
+let symbol_ = Lens.create (fun m -> m.Symbol) (fun w m -> {m with Symbol = w})
+let wires_ = Lens.create (fun m -> m.Wires) (fun w m -> {m with Wires = w})
+
+// in optic file
+/// Static overloads of the optic map function (%=). These functions do not generally
+/// need to be called directly, but will be used when calling Optic.map.
+type Map =
+    | Map with
+
+    static member (^%) (Map, (g, s): Lens<'a,'b>) =
+        fun (f: 'b -> 'b) ->
+            (fun a -> s (f (g a)) a) : 'a -> 'a
+
+    static member (^%) (Map, (g, s): Prism<'a,'b>) =
+        fun (f: 'b -> 'b) ->
+            (fun a -> Option.map f (g a) |> function | Some b -> s b a
+                                                        | _ -> a) : 'a -> 'a
+/// Modify a value using an optic.
+let inline map optic f =
+    (Map ^% optic) f
+
+let moveCircuit moveDelta (model: Model) =
+    model
+    |> Optic.map symbol_ (BlockHelpers.moveSymbols moveDelta)
+    |> Optic.map wire_ (BlockHelpers.moveWires moveDelta)
+    |> Optic.map wire_ (BusWireSeparate.updateWireSegmentJumpsAndSeparations [])
+
+... // in Sheet.fs
+    let posDelta :(XYPos -> XYPos) = ((+) circuitMove)
+    let posScreenDelta :(XYPos -> XYPos) = ((+) (circuitMove*model.Zoom))
+    model 
+    |> moveCircuit circuitMove
+    |> Optic.map screenScrollPos_ posDelta 
+    |> Optic.set canvasSize_ newSize
+    |> Optic.map screenScrollPos_ posScreenDelta
+    |> Optic.map lastMousePos_ posDelta
+    |> Optic.map lastMousePosForSnap_ posDelta
+    |> Optic.map (scrollingLastMousePos_ >-> pos_) posDelta
