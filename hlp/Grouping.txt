@@ -9,8 +9,7 @@
 module Grouping =
 
     let extractedCode = 
-                let {BoundingBox.TopLeft = {X=fX; Y=fY}; H=fH; W=fW} = model.ScalingBox.Value.ScalingBoxBound //the syntax here is confusing
-                let buttonH, buttonW = (fH+100.), (fW+100.) // grouping
-                drawAnnotation model.ScalingBox.Value.RotateDeg270Button buttonH buttonW
-                @ drawAnnotation model.ScalingBox.Value.RotateDeg90Button buttonH buttonW
-                @ drawAnnotation model.ScalingBox.Value.ScaleButton buttonH buttonW
+        let buttonH, buttonW = (fH+100.), (fW+100.) // grouping
+        drawAnnotation model.ScalingBox.Value.RotateDeg270Button buttonH buttonW
+        @ drawAnnotation model.ScalingBox.Value.RotateDeg90Button buttonH buttonW
+        @ drawAnnotation model.ScalingBox.Value.ScaleButton buttonH buttonW
