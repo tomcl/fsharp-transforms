@@ -8,7 +8,7 @@
    3. Identifier size should vary with scope and number of uses. Local identifiers can be single letter if a longer name does not help understanding given the context. Global names should document what a function does or a value is, however a helper function used everywhere might have a shorter name to aid expression readability and because it will be more easily remembered.
    4. XML comments are visible by hovering on refrences. They should add detail about what (not how) to make using a function or value easy. They will usually be 2 lines long, but can range from 1 - 5 lines. You can add extra documentation as non-XML comments inside a function definition.
 4. **RSN** (Reduce syntactic noise). Make it easier to see what really matters about the code without unnecessary boilerplate. Pipelines are one obvious example of this, as is type inference which allows unnecessary types to be omitted. Types should be included only when they make code more readable by documenting what functions do, typically for inputs and outputs of global helpers and larger functions.
-5. **LFM** (layout follows meaning). We read code visually, so visual cues – what lines up with what, what is next to what, determine how quick it is to identify what code does. An example is always indenting match case expressions to the same place on a new line so that the pattern/expression links are visually emphasised. Layout can sometimes provide useful hints about meaning (e.g. what is grouped with what). The order in which things are written affects the ease with which we process them – this is the key motivation for pipelines.
+5. **LFM** (layout follows meaning). We read code visually, so visual cues – what lines up with what, what is next to what, determine how quick it is to identify what code does. An example is always indenting match case expressions to the same place on a new line so that the pattern/expression links are visually emphasised. Layout can sometimes provide useful hints about meaning (e.g. what is grouped with what). The order in which things are written affects the ease with which we process them. Pipelines, for example,  address both order (made to follow data) and visual queues (each pipeline element is aligned vertically.
 
 # **Why do these principles matter?**
 
@@ -16,13 +16,17 @@ Most of programmer's time is spent trying to understand and refactor other peopl
 
 Programming requires good **algorithms** , **types** , and code **quality**. The length of Knuth's classic and excellent [The Art of computer Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming) shows the depth of knowledge required to use **algorithms** effectively. In FP choosing the correct **types** to implement data structures is typically done first and very important. Having chosen algorithms, and types, writing code of high **quality** then makes an enormous difference, especially for code maintenance.
 
+Better alorithms,  better structure, all also improve code quality. Those things are hard work to get right, and very time-consuming to retrofit. The things in this document are easy to learn and implement and can be safely retrofitted to improve code. They apply to a wide variety of programs.
+
+Although these transforms are "robotic" - which to implement is a matter of judgement. Choosing good names requires a detailed understanding of the program semantics.
+
 # **Seven Types of Code Transformation**
 
 Each of these types of transformation represents identifiable code which can be transformed and (usually) made better. In some cases the transformation is nearly always beneficial. In others it is a matter of judgement. Thinking about how you might apply these transformations to your code is the way to write better code. Practice and it will become very fast.
 
 The transformations are grouped loosely into types as below.
 
-Writing good code is about more than these transformations. For example, the correct types muts be identified and written. Monadic types, where useful, muts be used. These transformations nevertheless are helpful when writing the actual code.
+Writing good code is about more than these transformations. For example, the correct types must be identified and written. Monadic types, where useful, must be used. These transformations nevertheless are helpful when writing the actual code.
 
 1. **Functional (and let value definition) abstraction**
 
