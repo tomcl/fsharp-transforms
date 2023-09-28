@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="issie_opens\ElmishCmd.fs" />
+    <Compile Include="issie_opens\Fable.React.fs" />
+    <Compile Include="issie_opens\Fable.React.Props.fs" />
+    <Compile Include="issie_opens\Optics.fs" />
+    <Compile Include="issie_opens\CommonTypes.fs" />
+    <Compile Include="issie_opens\DrawHelpers.fs" />
+    <Compile Include="issie_opens\DrawModelType.fs" />
+    <Compile Include="issie_opens\SimulatorTypes.fs" />
+    <Compile Include="issie_opens\TruthTableTypes.fs" />
+    <Compile Include="issie_opens\VerilogTypes.fs" />
+    <Compile Include="issie_opens\ModelType.fs" />
+    <Compile Include="issie_opens\BlockHelpers.fs" />
+    <Compile Include="issie_opens\Symbol.fs" />
+    <Compile Include="issie_opens\BusWire.fs" />
+    <Compile Include="issie_extracts_examples\MatchCaseCompression.fs" />
+    <Compile Include="issie_extracts_examples\Grouping.fs" />
+    <Compile Include="issie_extracts_examples\InputWrapping.fs" />
+    <Compile Include="issie_extracts_examples\GlobalHelperFunctions.fs" />
+    <Compile Include="issie_extracts_examples\Record.fs" />
+    <Compile Include="issie_extracts_examples\StructuralAbstraction.fs" />
+  </ItemGroup>
+  
+</Project>

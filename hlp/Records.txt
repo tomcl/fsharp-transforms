@@ -20,13 +20,7 @@ let updateOrInsert (symConnData: SymConnDataT) (edge: Edge) (cid: ComponentId) =
     let count = Map.tryFind (cid, edge) m |> Option.defaultValue 0 |> (+) 1
     { ConnMap = Map.add (cid, edge) count m }
 
-// TODO: this is copied from Sheet.notIntersectingComponents. It requires SheetT.Model, which is not accessible from here. Maybe refactor it.
-let noSymbolOverlap (boxesIntersect: BoundingBox -> BoundingBox -> bool) boundingBoxes sym =
-    let symBB = getSymbolBoundingBox sym
 
-    boundingBoxes
-    |> Map.filter (fun sId boundingBox -> boxesIntersect boundingBox symBB && sym.Id <> sId)
-    |> Map.isEmpty
 
 /// Finds the optimal size and position for the selected symbol w.r.t. to its surrounding symbols.
 let optimiseSymbol
