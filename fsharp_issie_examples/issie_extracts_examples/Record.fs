@@ -1,5 +1,12 @@
+// -------------------------------- Records -------------------------------- //
 
+// Records, with discriminated unions, are the key types you use to describe your data.
+// In addition records (or anonymous records, if used one-off) can be used as below
+// to transform your code into a more readable form.
 
+// In the issie extracted example below, please see:
+// lines 23 - 26 for the definition of record type 
+// lines 29, 41, 68, 106, 107, 110 for the reference use of such record 
 
 module Record
 
@@ -12,13 +19,14 @@ open Optics
 //------------------------------autoroute--------------------------------------//
 
 /// Contains geometric information of a port
+//  record (NB: type created for auto-route section of the code only)
 type PortInfo = {
     Edge: Edge
     Position: XYPos
 }
 
 /// Returns a PortInfo object given a port edge and position
-let inline genPortInfo edge position =
+let inline genPortInfo edge position = // using record
     { Edge = edge; Position = position }
 
 /// Returns an edge rotated 90 degrees anticlockwise
@@ -30,7 +38,7 @@ let inline rotate90Edge (edge: Edge) =
     | CommonTypes.Right -> CommonTypes.Top
 
 /// Returns a port rotated 90 degrees anticlockwise about the origin
-let inline rotate90Port (port: PortInfo) =
+let inline rotate90Port (port: PortInfo) = // using record
     let newEdge = rotate90Edge port.Edge
 
     let newPos =
@@ -57,7 +65,7 @@ let rotateSegments90 initialOrientation =
     >> List.map rotateSegment
 
 /// Returns a version of the start and destination ports rotated until the start edge matches the target edge.
-let rec rotateStartDest (target: Edge) ((start, dest): PortInfo * PortInfo) = 
+let rec rotateStartDest (target: Edge) ((start, dest): PortInfo * PortInfo) = // using record
     if start.Edge = target then
         (start, dest)
     else
@@ -94,12 +102,12 @@ let autoroute (model: Model) (wire: Wire) : Wire =
 
     let startEdge =
         getOutputPortOrientation model.Symbol wire.OutputPort
-
-    let startPort = genPortInfo startEdge startPos
-    let destPort = genPortInfo destEdge destPos
+ 
+    let startPort = genPortInfo startEdge startPos // using record
+    let destPort = genPortInfo destEdge destPos   // using record
     
     // Normalise the routing problem to reduce the number of cases in makeInitialSegmentsList
-    let normStart, normEnd = 
+    let normStart, normEnd = // using record
         rotateStartDest CommonTypes.Right (startPort, destPort)
 
     let initialSegments =
