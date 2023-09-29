@@ -15,7 +15,7 @@ open DrawModelType.SheetT
 open DrawModelType.SymbolT
 
 // setups for the extracts 
-// this is also examples of global helper functions 
+// this is also examples of global helper functions - see GlobalHelperFunction.fs
 let symbolCmd (msg: SymbolT.Msg) = Cmd.ofMsg (ModelType.Msg.Sheet (Wire (BusWireT.Symbol msg)))
 let wireCmd (msg: BusWireT.Msg) = Cmd.ofMsg (ModelType.Msg.Sheet (Wire msg))
 let sheetCmd (msg: SheetT.Msg) = Cmd.ofMsg (ModelType.Msg.Sheet msg)

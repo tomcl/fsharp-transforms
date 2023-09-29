@@ -26,6 +26,9 @@
     <Compile Include="issie_extracts_examples\GlobalHelperFunctions.fs" />
     <Compile Include="issie_extracts_examples\Record.fs" />
     <Compile Include="issie_extracts_examples\StructuralAbstraction.fs" />
+    <Compile Include="issie_extracts_examples\MatchingOnTuples.fs" />
+    <Compile Include="issie_extracts_examples\Guards.fs" />
+    <Compile Include="issie_extracts_examples\MatchLists.fs" />
   </ItemGroup>
   
 </Project>
