@@ -36,7 +36,7 @@ _Each of the transformations here can be considered and implemented whenever it 
 
 [Structural Abstraction](fsharp_examples/fsharp_examples/StructuralAbstraction.fs). Partition code into functions each doing part of the work. Special case: [structural pipelining](fsharp_examples/fsharp_examples/Pipelining.fs). Special and common combination of pipelining and structural abstraction where a function is split into multiple pipelined subfunctions each of which does part of the work. This corresponds to transforming the input data through a number of stages. DUI (with pipelining, add LFM).
 
-[Input Wrapping](fsharp_examples/fsharp_examples/InputWrapping.fs). Use local `le`t definitions to wrap input parameters transforming them into a form that can be used with less duplication (and helpful names) multiple times in expressions (DRY)
+[Input Wrapping](fsharp_examples/fsharp_examples/InputWrapping.fs). Use local `let` definitions to wrap input parameters transforming them into a form that can be used with less duplication (and helpful names) multiple times in expressions (DRY)
 
 [Match case compression 1](fsharp_examples/fsharp_examples/MatchCaseCompression.fs). Move common code inside multiple `match` case expressions outside before the match. Note that this may require the `match` case expressions (or part of them) to be turned into functions so that the "variable" bits can be factored out. But often all that is needed is let definitions before the `match` (DRY).
 
@@ -74,24 +74,24 @@ Records, with discriminated unions, are the key types you use to describe your d
 
 5. **Match**
 
-_Match lists_. The great advantage of `match` on lists is that the first one or several elements can be extracted as separate identifiers, and if this is not possible a suitable alternative thing can be done. So `match` combines check for list length and list indexing in away that obeys NEP (no exceptions possible). (NEP, RSN).
+*Match lists*. The great advantage of `match` on lists is that the first one or several elements can be extracted as separate identifiers, and if this is not possible a suitable alternative thing can be done. So `match` combines check for list length and list indexing in away that obeys NEP (no exceptions possible). (NEP, RSN).
 
-_Matching on tuples_ (DRY).Matching on tuples can lead to very concise and readable code becaue wildcards can be used where a tuple is not matched. Unlike `when` guards, which break the automatic pattern completion check - because the compiler cannot work out when a `when` guard will allow a pattern to match - tuple matching makes it easy to see if you have left a case out. (NEP, RSN)
+*Matching on tuples* (DRY).Matching on tuples can lead to very concise and readable code becaue wildcards can be used where a tuple is not matched. Unlike `when` guards, which break the automatic pattern completion check - because the compiler cannot work out when a `when` guard will allow a pattern to match - tuple matching makes it easy to see if you have left a case out. (NEP, RSN)
 
-_Using wildcards_. Use them ( **\_** in patterns) to increase readability. If the unmatched part should be named to aid readability use **\_name** which tells the compiler you are not using name. (RSN).
+*Using wildcards*. Use them ( **\_** in patterns) to increase readability. If the unmatched part should be named to aid readability use **\_name** which tells the compiler you are not using name. (RSN).
 
-_Using guards_. A long `if then elif then ... else then` expression can always be simplified to a `match` on `()` with all patterns wildcards (always match) and a `when` guard for each of the `if` conditions. That is perhaps a bit extreme, but often a single `when` guard can allow a complex nested `if` to be coded as a single `match` in a way that is more readable. (RSN, LFM).
+*Using guards*. A long `if then elif then ... else then` expression can always be simplified to a `match` on `()` with all patterns wildcards (always match) and a `when` guard for each of the `if` conditions. That is perhaps a bit extreme, but often a single `when` guard can allow a complex nested `if` to be coded as a single `match` in a way that is more readable. (RSN, LFM).
 
-_Definitional (including `as`)_. Match patterns are powerful because they combine matching with `let` definitions: each pattern identifier is effectively the same as a `let` definition. The matched expression can be any expression. Sometimes you want to use both the parts of a pattern *and* the whole thing. The **as** keyword allows this - warning - it can get ugly if you need brackets to ensure the **as** binds to the cirrect bit of the pattern. (RSN, DUI).
+*Definitional (including `as`)*. Match patterns are powerful because they combine matching with `let` definitions: each pattern identifier is effectively the same as a `let` definition. The matched expression can be any expression. Sometimes you want to use both the parts of a pattern *and* the whole thing. The **as** keyword allows this - warning - it can get ugly if you need brackets to ensure the **as** binds to the cirrect bit of the pattern. (RSN, DUI).
 
-_Use discriminated unions_ **.** A D.U. has named values - matching on D.U. cases is usually much more readable than matching on booleans. There is an overhead in having too many type defintions: but D.U. types can be defined private in a module or submodule in which case they are not visible outside that. Use two-value D.U.s as substitute for booleans when the type value names add readability and the type is used in multiple places.
+*Use discriminated unions* **.** A D.U. has named values - matching on D.U. cases is usually much more readable than matching on booleans. There is an overhead in having too many type defintions: but D.U. types can be defined private in a module or submodule in which case they are not visible outside that. Use two-value D.U.s as substitute for booleans when the type value names add readability and the type is used in multiple places.
 
 6. **Monadic operations**
 
 When processing monadic values (`Option`, `Result`) you have the choice of using **match** to separate the cases, or the following monadic functions. Often (though not always) the functions make what you are doing more readable, as well as (always) being more concise. (RSN, NEP):
 
-- `Option.map`/`Result.map`.
-- `Option.bind`/`Result.bind`
+- `Option.map` / `Result.map`.
+- `Option.bind` / `Result.bind`
 - `Option.orElse`
 - `Option.defaultValue`
 
