@@ -6,9 +6,9 @@
    1. Identifiers must not include noise - information that is unhelpful in the code context and makes the identifier longer than necessary. This argues for short identifiers, especially when they are repeated in expressions.
    2. Identifiers must document the code. They should say **what** they are, or **what** the function does, not **how** it does it, or **how** it will be used. This argues for long identifiers, especially when what they are or do is not clear from context.
    3. Identifier size should vary with scope and number of uses. Local identifiers can be single letter if a longer name does not help understanding given the context. Global names should document what a function does or a value is, however a helper function used everywhere might have a shorter name to aid expression readability and because it will be more easily remembered.
-   4. XML comments are visible by hovering on refrences. They should add detail about what (not how) to make using a function or value easy. They will usually be 2 lines long, but can range from 1 - 5 lines. You can add extra documentation (e.g. how the function works when this is needed) as non-XML comments inside a function definition.
+   4. XML comments are visible by hovering on references. They should add detail about what (not how) to make using a function or value easy. They will usually be 2 lines long, but can range from 1 - 5 lines. You can add extra documentation (e.g. how the function works when this is needed) as non-XML comments inside a function definition.
 4. **RSN** (Reduce Syntactic Noise). Make it easier to see what really matters about the code without unnecessary boilerplate. Pipelines are one obvious example of this, as is type inference which allows unnecessary types to be omitted. Types should be included only when they make code more readable by documenting what functions do, typically for inputs and outputs of global helpers and larger functions.
-5. **LFM** (Layout Follows Meaning). We read code visually, so visual cues – what lines up with what, what is next to what, determine how quick it is to identify what code does. An example is always indenting match case expressions to the same place on a new line so that the pattern/expression links are visually emphasised. Layout can sometimes provide useful hints about meaning (e.g. what is grouped with what). The order in which things are written affects the ease with which we process them. Pipelines, for example,  address both order (made to follow data) and visual queues (each pipeline element is aligned vertically. So a *trivial* syntactic rearrangement can make code muhc more readable.
+5. **LFM** (Layout Follows Meaning). We read code visually, so visual cues – what lines up with what, what is next to what, determine how quick it is to identify what code does. An example is always indenting match case expressions to the same place on a new line so that the pattern/expression links are visually emphasised. Layout can sometimes provide useful hints about meaning (e.g. what is grouped with what). The order in which things are written affects the ease with which we process them. Pipelines, for example,  address both order (made to follow data) and visual queues (each pipeline element is aligned vertically). So a *trivial* syntactic rearrangement can make code much more readable.
 
 # **Why do these principles matter?**
 
@@ -42,7 +42,7 @@ _Each of the transformations here can be considered and implemented whenever it 
 
 [Match case compression 2](fsharp_examples/fsharp_examples/MatchCaseCompression.fs). Move common code at the end of multiple `match` case expressions *after* the match – pipelining the `match` result into a common function.
 
-[Function wrapping](fsharp_examples/fsharp_examples/FunctionWrapping.fs). A function is used multiple times in a particular way – e.g. with some inputs fixed, or with a consistent change to its output. Create a local wrapper function which implements the modified function. Note that this is similar in effect to input wrapping. Note also that if inputs are corrctly ordered Currying does this without the need for a wrapper - although a wrapper may still be used to reduce noise and add abstraction (DRY, DUI). The value of this depends on how much *mess* it simplifies and whether the wrapper function makes sense and has a suitable name.
+[Function wrapping](fsharp_examples/fsharp_examples/FunctionWrapping.fs). A function is used multiple times in a particular way – e.g. with some inputs fixed, or with a consistent change to its output. Create a local wrapper function which implements the modified function. Note that this is similar in effect to input wrapping. Note also that if inputs are correctly ordered Currying does this without the need for a wrapper - although a wrapper may still be used to reduce noise and add abstraction (DRY, DUI). The value of this depends on how much *mess* it simplifies and whether the wrapper function makes sense and has a suitable name.
 
 [Helper functions](fsharp_examples/fsharp_examples/GlobalHelperFunction.fs). Identify and code globally useful helper functions (DRY, DUI)
 
@@ -52,15 +52,15 @@ _Each of the transformations here can be considered and implemented whenever it 
 
 [Grouping](fsharp_examples/fsharp_examples/ParameterGrouping.fs) (see records). Group related function parameters together as a single compound parameter. This can be done with tuples, but is usually best done with records - always ask whether your tuples would be better implemented as records which document fields with field names. (DUI, RSN).
 
-[Static parameter elimination](fsharp_examples/fsharp_examples/StaticParamElimination.fs) This is about choosing function scope. One motivation for making a function a subfunction *local* is that static information it needs available in the outer function can be fed in directly as in-scope identifiers without the overhead of passing it through function parameters. This overhead is typically not about performance. Compilers can optimsie that. It is cognitive processing overhead matching up parameters. (RSN).
+[Static parameter elimination](fsharp_examples/fsharp_examples/StaticParamElimination.fs) This is about choosing function scope. One motivation for making a function a subfunction *local* is that static information it needs available in the outer function can be fed in directly as in-scope identifiers without the overhead of passing it through function parameters. This overhead is typically not about performance. Compilers can optimise that. It is cognitive processing overhead matching up parameters. (RSN).
 
-[Adding a parameter](fsharp_examples/fsharp_examples/AddingParameters.fs). Where two blocks of code can't immediately be commoned up as a value or function used twice, adding a parameter can make this possible. Choose function and parameter name and operation so that what it does is clear.
+[Adding a parameter](fsharp_examples/fsharp_examples/AddingParameters.fs). Where two blocks of code can't immediately be implemented as a value or function used twice, adding a parameter can make this possible. Choose function and parameter name and operation so that what it does is clear.
 
 3. **Pipelines**
 
 [Making](fsharp_examples/fsharp_examples/Pipelining.fs). A pipeline, in code, is motivated by LFM. The order of operations in a pipeline follows the actual order in which data is transformed - so turning function applications into pipelines makes reading easier. (LFM).
 
-[Breaking](fsharp_examples/fsharp_examples/BreakingPipeline.fs). A pipeline may lead to code that is dificult to understand if its stages do not make sense individually. In that case breaking the pipeline with a let defined identifier that documents an intermediate value can make code simpler. (DUI).
+[Breaking](fsharp_examples/fsharp_examples/BreakingPipeline.fs). A pipeline may lead to code that is difficult to understand if its stages do not make sense individually. In that case breaking the pipeline with a let defined identifier that documents an intermediate value can make code simpler. (DUI).
 
 [Anonymous function at end](fsharp_examples/fsharp_examples/AnonymousFunAtEnd.fs). FP allows a pipeline to be formed with an anonymous function at the end of it. If you think about it, this is identical to a let definition followed an expression using the let-defined value(s). the choice of which form is best should be made based on readability: it is often not clear-cut which form is better - don't assume the "more functional" one is better! (LFM).
 
@@ -68,7 +68,7 @@ _Each of the transformations here can be considered and implemented whenever it 
 
 Records, with discriminated unions, are the key types you use to describe your data. In addition records (or anonymous records, if used one-off) can be used as below to transform your code into a more readable form.
 
-[Grouping definitions](fsharp_examples/fsharp_examples/Records.fs): Mutiple repeated name prefixes or suffixes: `cursorX`, `cursorY` make code difficult to read. The correct answer is nearly always a record type.Possibly, if used only in one case, an anonymous record. DRY
+[Grouping definitions](fsharp_examples/fsharp_examples/Records.fs): Multiple repeated name prefixes or suffixes: `cursorX`, `cursorY` make code difficult to read. The correct answer is nearly always a record type.Possibly, if used only in one case, an anonymous record. DRY
 
 [Grouping parameters](fsharp_examples/fsharp_examples/Records.fs). Special case of grouping definitions which is particularly important since too many parameters make function calls difficult to read as well as complicating function definitions. A great example of this would be the common practice of using a single *configuration* record (DRY, RSN).
 
@@ -76,15 +76,15 @@ Records, with discriminated unions, are the key types you use to describe your d
 
 *Match lists*. The great advantage of `match` on lists is that the first one or several elements can be extracted as separate identifiers, and if this is not possible a suitable alternative thing can be done. So `match` combines check for list length and list indexing in away that obeys NEP (no exceptions possible). (NEP, RSN).
 
-*Matching on tuples* (DRY).Matching on tuples can lead to very concise and readable code becaue wildcards can be used where a tuple is not matched. Unlike `when` guards, which break the automatic pattern completion check - because the compiler cannot work out when a `when` guard will allow a pattern to match - tuple matching makes it easy to see if you have left a case out. (NEP, RSN)
+*Matching on tuples* (DRY).Matching on tuples can lead to very concise and readable code because wildcards can be used where a tuple is not matched. Unlike `when` guards, which break the automatic pattern completion check - because the compiler cannot work out when a `when` guard will allow a pattern to match - tuple matching makes it easy to see if you have left a case out. (NEP, RSN)
 
 *Using wildcards*. Use them ( **\_** in patterns) to increase readability. If the unmatched part should be named to aid readability use **\_name** which tells the compiler you are not using name. (RSN).
 
 *Using guards*. A long `if then elif then ... else then` expression can always be simplified to a `match` on `()` with all patterns wildcards (always match) and a `when` guard for each of the `if` conditions. That is perhaps a bit extreme, but often a single `when` guard can allow a complex nested `if` to be coded as a single `match` in a way that is more readable. (RSN, LFM).
 
-*Definitional (including `as`)*. Match patterns are powerful because they combine matching with `let` definitions: each pattern identifier is effectively the same as a `let` definition. The matched expression can be any expression. Sometimes you want to use both the parts of a pattern *and* the whole thing. The **as** keyword allows this - warning - it can get ugly if you need brackets to ensure the **as** binds to the cirrect bit of the pattern. (RSN, DUI).
+*Definitional (including `as`)*. Match patterns are powerful because they combine matching with `let` definitions: each pattern identifier is effectively the same as a `let` definition. The matched expression can be any expression. Sometimes you want to use both the parts of a pattern *and* the whole thing. The **as** keyword allows this - warning - it can get ugly if you need brackets to ensure the **as** binds to the correct bit of the pattern. (RSN, DUI).
 
-*Use discriminated unions* **.** A D.U. has named values - matching on D.U. cases is usually much more readable than matching on booleans. There is an overhead in having too many type defintions: but D.U. types can be defined private in a module or submodule in which case they are not visible outside that. Use two-value D.U.s as substitute for booleans when the type value names add readability and the type is used in multiple places.
+*Use discriminated unions* **.** A D.U. has named values - matching on D.U. cases is usually much more readable than matching on booleans. There is an overhead in having too many type definitions: but D.U. types can be defined private in a module or submodule in which case they are not visible outside that. Use two-value D.U.s as substitute for booleans when the type value names add readability and the type is used in multiple places.
 
 6. **Monadic operations**
 
