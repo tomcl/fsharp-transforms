@@ -101,9 +101,8 @@ Typical use cases are in pipelines through which `Option` or `Result` values pas
 
 Nearly all F# exceptions come from using the following unsafe constructs:
 
-- `Reduce` (fails with no elements - use `fold instead)
+- `Reduce` (fails with no elements - use `fold` instead)
 - Indexing (into lists or arrays or maps): `a[1]`
-- `List.head`, `List.tail`, `List.find` etc (use `try` versions of collection functions that can fail)
-- `Option.get`
+- `List.head`, `List.tail`, `List.find`, `List.pick` etc (similarly other collections: Array, Map, etc)
 
 In all these cases there is a **try** version of the function which is safe and can be used instead. Or, see **match** , a match expression can be used to ensure safety. (NEP)
